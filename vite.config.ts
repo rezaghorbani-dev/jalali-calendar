@@ -1,35 +1,42 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import dts from "vite-plugin-dts";
-import { resolve } from "path";
+import path, { resolve } from 'node:path'
 
+import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
+import EsLint from 'vite-plugin-linter'
+import tsConfigPaths from 'vite-tsconfig-paths'
+const { EsLinter, linterPlugin } = EsLint
+import * as packageJson from './package.json'
 // https://vitejs.dev/config/
-export default defineConfig({
-  plugins: [react(), dts({ rollupTypes: true })],
-
+export default defineConfig((configEnv) => ({
+  plugins: [
+    dts({
+      insertTypesEntry: true,
+      include: ['src/component/'],
+    }),
+    react(),
+    tsConfigPaths(),
+    linterPlugin({
+      include: ['./src/**/*.{ts,tsx}'],
+      linters: [new EsLinter({ configEnv })],
+    })
+  ],
   build: {
     lib: {
-      entry: resolve(__dirname, "./src/index.ts"),
-      name: "react-beautiful-timeline",
-      fileName: (format) => `index.${format}.js`,
+      entry: path.join('src', 'component/index.ts'),
+      
+      name: 'ReactViteLibrary',
+      formats: ['es', 'umd'],
+      fileName: (format) => `react-vite-library.${format}.js`,
     },
     rollupOptions: {
-      external: ["react", "react-dom", "tailwindcss"],
+      external: [...Object.keys(packageJson.peerDependencies)],
       output: {
         globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-          tailwindcss: "tailwindcss",
+            react: 'React',
+            'react-dom': 'ReactDOM',
         },
-      },
     },
-    sourcemap: true,
-    emptyOutDir: true,
+    },
   },
-
-
-  server: {
-    port: 3001,
-    open: "/demo/index.html"
-  }
-});
+}))
