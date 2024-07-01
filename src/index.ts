@@ -1,5 +1,2 @@
-import * as React from "react";
+export * from "./components/app";
 
-declare class App extends React.Component {}
-
-export default { App };
