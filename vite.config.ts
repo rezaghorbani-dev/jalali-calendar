@@ -1,42 +1,37 @@
-import path, { resolve } from 'node:path'
+import path from "path";
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import dts from "vite-plugin-dts";
 
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
-import dts from 'vite-plugin-dts'
-import EsLint from 'vite-plugin-linter'
-import tsConfigPaths from 'vite-tsconfig-paths'
-const { EsLinter, linterPlugin } = EsLint
-import * as packageJson from './package.json'
-// https://vitejs.dev/config/
-export default defineConfig((configEnv) => ({
-  plugins: [
-    dts({
-      insertTypesEntry: true,
-      include: ['src/component/'],
-    }),
-    react(),
-    tsConfigPaths(),
-    linterPlugin({
-      include: ['./src/**/*.{ts,tsx}'],
-      linters: [new EsLinter({ configEnv })],
-    })
-  ],
+export default defineConfig({
   build: {
+    //Specifies that the output of the build will be a library.
     lib: {
-      entry: path.join('src', 'component/index.ts'),
-      
-      name: 'ReactViteLibrary',
-      formats: ['es', 'umd'],
-      fileName: (format) => `react-vite-library.${format}.js`,
+      //Defines the entry point for the library build. It resolves to src/index.ts,
+      //indicating that the library starts from this file.
+      entry: path.resolve(__dirname, "src/index.ts"),
+      name: "react-jp-ui",
+      //A function that generates the output file
+      //name for different formats during the build
+      fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
-      external: [...Object.keys(packageJson.peerDependencies)],
+      external: ["react", "react-dom"],
       output: {
         globals: {
-            react: 'React',
-            'react-dom': 'ReactDOM',
+          react: "React",
+          "react-dom": "ReactDOM",
         },
+      },
     },
-    },
+    //Generates sourcemaps for the built files,
+    //aiding in debugging.
+    sourcemap: true,
+    //Clears the output directory before building.
+    emptyOutDir: true,
   },
-}))
+  //react() enables React support.
+  //dts() generates TypeScript declaration files (*.d.ts)
+  //during the build.
+  plugins: [react(), dts()],
+});
