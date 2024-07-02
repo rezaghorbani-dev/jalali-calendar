@@ -1,6 +1,5 @@
 {
   "name": "jalali-calendar",
-  "private": false,
   "description": "jalali-calendar",
   "version": "0.0.5",
   "main": "dist/index.umd.js",
@@ -24,7 +23,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "sb": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "node-sass": "^9.0.0",
@@ -38,6 +39,15 @@
     "vite-plugin-dts": "^3.6.3"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "1.6.0",
+    "@storybook/addon-essentials": "^8.1.11",
+    "@storybook/addon-interactions": "^8.1.11",
+    "@storybook/addon-links": "^8.1.11",
+    "@storybook/addon-onboarding": "^8.1.11",
+    "@storybook/blocks": "^8.1.11",
+    "@storybook/react": "^8.1.11",
+    "@storybook/react-vite": "^8.1.11",
+    "@storybook/test": "^8.1.11",
     "@types/node": "^20.10.0",
     "@types/react": "^18.2.37",
     "@types/react-dom": "^18.2.15",
@@ -48,8 +58,11 @@
     "eslint": "^8.53.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
+    "eslint-plugin-storybook": "^0.8.0",
     "sass": "^1.69.5",
+    "storybook": "^8.1.11",
     "typescript": "^5.2.2",
     "vite": "^5.0.0"
-  }
+  },
+  "packageManager": "yarn@4.3.1"
 }
