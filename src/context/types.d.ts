@@ -1,24 +1,22 @@
-import type { Spec } from "immutability-helper";
+import type { Draft } from "immer";
 
 // Helper Types
 
-export type UpdatedState<T> = Spec<T, never>;
-
 export type StateUpdater<T> = (
-  input: (State: T) => UpdatedState<T>,
+  input: (State: Draft<T>) => void,
   source: string
 ) => void;
 
 export type Ctx<T> = [T, StateUpdater<T>];
 
-// Layout Context
+// App Context
 
-export type LayoutState = {
+export type AppState = {
   dir: "ltr" | "rtl";
   locale: "fa" | "en";
 };
 
-export type LayoutContext = Ctx<LayoutState>;
+export type AppContext = Ctx<AppState>;
 
 export type CtxProviderProps = {
   children: React.ReactNode;
