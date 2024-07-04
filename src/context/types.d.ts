@@ -14,6 +14,7 @@ export type Ctx<T> = [T, StateUpdater<T>];
 export type AppState = {
   dir: "ltr" | "rtl";
   locale: "fa" | "en";
+  firstDayOfWeek?: "Monday" | "Saturday";
 };
 
 export type AppContext = Ctx<AppState>;
